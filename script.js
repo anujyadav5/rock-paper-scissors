@@ -10,69 +10,75 @@ function computerPlay() {
     }
 }
 
-let playerWin
-let computerWin
+let playerScore=0;
+let computerScore=0;
 
 function playRound(playerSelection, computerSelection) {
-    playerSelection = playerSelection.toLowerCase();
-    computerSelection = computerSelection.toLowerCase();
-
-    playerWin = false;
-    computerWin = false;
+    results.textContent = '';
 
     if (playerSelection == "rock") {
         switch (computerSelection) {
             case "rock":
-                return "It's a tie! Two rocks collide";
+                results.textContent += "It's a tie! Two rocks collide";
+                break;
             case "paper":
-                computerWin = true;
-                return "You loose! Paper envelops rock";
+                results.textContent += "You loose! Paper envelops rock";
+                computerScore += 1;
+                break;
             case "scissors":
-                playerWin = true;
-                return "You win! Rock crushes scissors";
+                results.textContent += "You win! Rock crushes scissors";
+                playerScore += 1;
         }
     } else if (playerSelection == "paper") {
         switch (computerSelection) {
             case "rock":
-                playerWin = true;
-                return "You win! Paper envelops rock";
+                results.textContent += "You win! Paper envelops rock";
+                playerScore += 1;
+                break;
             case "paper":
-                return "It's a tie! Two papers slide apart";
+                results.textContent += "It's a tie! Two papers slide apart";
+                break;
             case "scissors":
-                computerWin = true;
-                return "You loose! scissors cut through paper";
+                results.textContent += "You loose! scissors cut through paper";
+                computerScore += 1;
         }
     } else if (playerSelection == "scissors") {
         switch (computerSelection) {
             case "rock":
-                computerWin = true;
-                return "You loose! Rock crushes scissors";
+                results.textContent += "You loose! Rock crushes scissors";
+                computerScore += 1;
+                break;
             case "paper":
-                playerWin = true;
-                return "You win! Scissors cut through paper";
+                results.textContent += "You win! Scissors cut through paper";
+                playerScore += 1;
+                break;
             case "scissors":
-                return "Its a tie! Two scissors interlock";
+                results.textContent += "Its a tie! Two scissors interlock";
         }
     } else {
         return "Error, please enter a valid choice";
     }
-}
 
-function game() {
-    let playerScore = 0;
-    let computerScore = 0;
+    scoreBox.textContent = `You ${playerScore} : ${computerScore} Computer`;
 
-    for (let i = 0; ((i<5) || (playerScore == computerScore));i++) {
-        playRound(prompt("Choose your weapon - rock, paper or scissors: "), computerPlay());
-        if (playerWin) {
-            playerScore++;
-        } else if (computerWin) {
-            computerScore++;
-        }
-        console.log(playerScore, computerScore)
+    if (playerScore == 5) {
+        results.textContent = `Game oer, you win!`;
+        playerScore = computerScore = 0;
+    } else if (computerScore == 5) {
+        results.textContent = `Game over, you loose...`;
+        playerScore = computerScore = 0;
     }
-
-    return ((playerScore > computerScore) ? 
-    `You win! Final score was ${playerScore} : ${computerScore}` :
-    `You loose! Final score was ${playerScore} : ${computerScore}`);
 }
+
+
+const results = document.getElementById('results');
+const scoreBox = document.getElementById('score');
+scoreBox.textContent = `You ${playerScore} : ${computerScore} Computer`;
+
+const rockButton = document.getElementById("rock");
+const paperButton = document.getElementById('paper');
+const scissorsButton = document.getElementById('scissors');
+
+rockButton.addEventListener('click', () => {playRound('rock', computerPlay())});
+paperButton.addEventListener('click', () => {playRound('paper', computerPlay())});
+scissorsButton.addEventListener('click', () => {playRound('scissors', computerPlay())});
