@@ -62,7 +62,7 @@ function playRound(playerSelection, computerSelection) {
     scoreBox.textContent = `You ${playerScore} : ${computerScore} Computer`;
 
     if (playerScore == 5) {
-        results.textContent = `Game oer, you win!`;
+        results.textContent = `Game over, you win!`;
         playerScore = computerScore = 0;
     } else if (computerScore == 5) {
         results.textContent = `Game over, you loose...`;
